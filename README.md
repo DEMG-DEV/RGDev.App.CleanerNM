@@ -6,6 +6,8 @@ A beautiful, native desktop application designed to reclaim disk space by deleti
 ![Electron](https://img.shields.io/badge/electron-28.x-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-purple.svg)
 
+![App Screenshot](assets/screenshot.png)
+
 ## Features
 
 - **Native Experience**: Runs as a standalone desktop app on macOS, Windows, and Linux.
