@@ -1,4 +1,4 @@
-# Contributing to Node Modules Cleaner
+# Contributing to Cleaner
 
 First off, thanks for taking the time to contribute!
 
@@ -32,10 +32,11 @@ This section guides you through submitting an enhancement suggestion, including 
 
 ## Styleguides
 
-### Python Styleguide
+### Rust Styleguide
 
-- All Python code should be compatible with Python 3.6+.
-- Follow [PEP 8](https://www.python.org/dev/peps/pep-0008/) style guidelines.
+- Format your code using `cargo fmt`.
+- Ensure all lints pass cleanly with `cargo clippy`.
+- Keep dependencies minimal and pure Rust.
 
 ## License
 

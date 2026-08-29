@@ -1,4 +1,6 @@
-node_modules
-dist
+/target
+**/*.rs.bk
+Cargo.lock
 .DS_Store
 .env
+.github/

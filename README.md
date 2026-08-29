@@ -1,63 +1,75 @@
-# Node Modules Cleaner (Electron Edition)
+# Cleaner (Pure Rust Edition)
 
-A beautiful, native desktop application designed to reclaim disk space by deleting `node_modules` and `dist` directories. Built with Electron for a premium, cross-platform experience.
+A high-performance, native desktop application designed to reclaim disk space by recursively finding and safely deleting heavy build directories and dependency caches (`node_modules`, `dist`, `target`, `bin`, `obj`, `venv`, `__pycache__`, `build`, etc.).
 
-![Node.js](https://img.shields.io/badge/node->=16.0-green.svg)
-![Electron](https://img.shields.io/badge/electron-28.x-blue.svg)
+Built **100% purely in Rust** with **egui / eframe**, offering native performance, instant startup, minimal memory consumption, and zero JavaScript/Node.js dependencies.
+
+![Rust](https://img.shields.io/badge/rust-2021_edition-orange.svg)
+![GUI](https://img.shields.io/badge/GUI-egui_/_eframe-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-purple.svg)
 
 ![App Screenshot](assets/screenshot.png)
 
 ## Features
 
-- **Native Experience**: Runs as a standalone desktop app on macOS, Windows, and Linux.
-- **Premium UI**: Features a modern "Glassmorphism" dark theme with smooth animations.
-- **Deep Scanning**: Recursively finds `node_modules`, `dist`, `bin`, and `obj` folders.
-- **Custom Filters**: Toggle which folder types to scan and delete.
+- **100% Pure Rust**: Zero Node.js, zero Electron, zero Webview, zero browser bloat. Single standalone native binary.
+- **Ultra Fast & Multi-Threaded**: Non-blocking background worker threads for scanning and deletion with 60 FPS UI responsiveness.
+- **Modern Dark UI**: Clean, responsive interface styled with dark mode and custom interactive cards.
+- **Deep Scanning & Intelligent Traversal**: Recursively detects build and dependency folders while avoiding scanning inside already matched targets.
+- **Customizable Target Filters**:
+  - **Node.js**: `node_modules`, `dist`
+  - **.NET**: `bin`, `obj`
+  - **Rust**: `target`
+  - **Go**: `bin`, `pkg`
+  - **Python**: `__pycache__`, `venv`, `.venv`, `.pytest_cache`, `.tox`
+  - **Flutter / Dart**: `build`, `.dart_tool`
 - **Smart & Safe**:
-  - Calculates exact folder sizes.
-  - Requires explicit confirmation before deletion.
-  - Shows a detailed summary of reclaimable space.
+  - Computes exact folder sizes.
+  - Multi-selection and sorting by size.
+  - Safety confirmation dialog before deletion.
+  - Detailed post-cleanup summary of freed disk space.
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) (v16 or higher)
-- npm (comes with Node.js)
+- [Rust & Cargo](https://rustup.rs/) (version 1.77 or newer)
 
-## Installation
-
-1.  Clone the repository:
-
-    ```bash
-    git clone https://github.com/yourusername/node-modules-cleaner.git
-    cd node-modules-cleaner
-    ```
-
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
-
-## Usage
-
-Start the application with:
-
+To install Rust on macOS or Linux:
 ```bash
-npm start
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-### workflow
+## Installation & Running
 
-1.  **Select Workspace**: Click "Browse System" to choose the root folder you want to clean (e.g., your `projects` directory).
-2.  **Scan**: The app will automatically scan for targets. Watch the animated progress indicator.
-3.  **Review**: See exactly which folders were found and how large they are.
-4.  **Clean**: Click "Clean All" to delete the folders and free up space.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/RGDev.App.CleanerNM.git
+   cd RGDev.App.CleanerNM
+   ```
+
+2. Run the application:
+   ```bash
+   cargo run --release
+   ```
+
+3. Build a standalone release binary:
+   ```bash
+   cargo build --release
+   ```
+   The optimized executable will be located at `target/release/cleaner`.
+
+## Workflow
+
+1. **Select Workspace**: Click **"📂 Browse System"** to pick the root folder you want to scan (e.g., your projects directory).
+2. **Configure Targets**: Toggle the target language/framework categories you want to clean.
+3. **Scan**: Click **"🚀 Start Deep Scan"**. The app traverses directories in the background while displaying real-time progress.
+4. **Review & Filter**: View all found directories, their paths, and their calculated sizes. Select or deselect folders, or sort by size.
+5. **Clean**: Click **"🗑 Clean Selected"**, confirm the action in the safety dialog, and let the app delete the targets to reclaim disk space.
 
 ## Architecture
 
-- **Main Process** (`main.js`): Handles system scanning and file deletion using Node's `fs` module to ensure performance and avoid browser sandbox limitations.
-- **Renderer** (`renderer.js`): Manages the reactive UI and communicates with the main process via IPC.
-- **Styling** (`style.css`): Custom CSS variable system with flexbox/grid layouts.
+- **`src/main.rs`**: Native application entry point and window viewport configuration using `eframe`.
+- **`src/app.rs`**: Reactive GUI layer implemented with `egui`, handling application states (`Selecting`, `Scanning`, `Results`, `ConfirmClean`, `Cleaning`, `Done`).
+- **`src/scanner.rs`**: Multi-threaded file system scanner and deletion engine with channels for zero-lag UI updates and accurate folder size calculation.
 
 ## License
 
